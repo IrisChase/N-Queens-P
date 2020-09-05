@@ -362,14 +362,14 @@ public class ChessBoardTest
         b.placeQueen(new Point(3, 2));
 
         String q3x2 = "\n" +
-                              ". A . A . A . . \n" +
-                              ". . A A A . . . \n" +
-                              "A A A Q A A A A \n" +
-                              ". . A A A . . . \n" +
-                              ". A . A . A . . \n" +
-                              "A . . A . . A . \n" +
-                              ". . . A . . . A \n" +
-                              ". . . A . . . . \n";
+                              ". A . A . A . .\n" +
+                              ". . A A A . . .\n" +
+                              "A A A Q A A A A\n" +
+                              ". . A A A . . .\n" +
+                              ". A . A . A . .\n" +
+                              "A . . A . . A .\n" +
+                              ". . . A . . . A\n" +
+                              ". . . A . . . .\n";
 
         assertEquals(q3x2, "\n" + b.getASCIIgrid());
     }

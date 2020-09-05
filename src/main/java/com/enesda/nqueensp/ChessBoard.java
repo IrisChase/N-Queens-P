@@ -38,6 +38,9 @@ public class ChessBoard
 
     public boolean checkInBounds(Point p)
     {
+        if(p.x >= n_for_queens || p.y >= n_for_queens) return false;
+        if(p.x < 0 || p.y < 0) return false;
+
         int offset = p.getFlatOffset(n_for_queens);
         return offset >= 0 && offset < grid.length;
     }
@@ -94,6 +97,8 @@ public class ChessBoard
         while(checkInBounds(p))
         {
             markIfOpen(p, markWith);
+
+            if(p.x == 0 || p.y == 0) break;
             --p.x;
             ++p.y;
         }

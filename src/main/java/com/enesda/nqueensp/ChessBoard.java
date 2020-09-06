@@ -1,8 +1,8 @@
 package com.enesda.nqueensp;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Vector;
+import java.util.HashMap;
 
 public class ChessBoard
 {
@@ -11,7 +11,6 @@ public class ChessBoard
     private final PositionState grid[];
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~public interface:
-
     public ChessBoard(int n)
     {
         n_for_queens = n;
@@ -120,7 +119,18 @@ public class ChessBoard
                                           Point pos2,
                                           PositionState markWith)
     {
+        Point jumpVector = Point.getMinimumWholeVectorWithSameAngle(
+                Point.getVectorBetweenPoints(pos1, pos2));
 
+        //Consider pos1 the origin
+        for(Point jumpPos = new Point(pos1); checkPointInBounds(jumpPos); jumpPos.add(jumpVector))
+            markIfOpen(jumpPos, markWith);
+
+        //Invert, then go again
+        jumpVector.invertVector();
+
+        for(Point jumpPos = new Point(pos1); checkPointInBounds(jumpPos); jumpPos.add(jumpVector))
+            markIfOpen(jumpPos, markWith);
     }
 
     public boolean placeQueen(Point p)
@@ -130,6 +140,7 @@ public class ChessBoard
         if(grid[flatOffset] != PositionState.OPEN) return false;
 
         grid[flatOffset] = PositionState.QUEEN;
+
 
         for(Point otherP : placedQueens)
         {
@@ -159,27 +170,70 @@ public class ChessBoard
                 placeQueen(new Point(x, y));
     }
 
-    public static ChessBoard compute(ChessBoard cb, int x, int y, int depth)
+
+
+
+    public String getASCIIgrid()
     {
-        while(true)
+        String rslt = new String();
+
+        //Draw numbers under the chessboard
+        int numberOnSide = n_for_queens;
+
+        for(int y = 0; y != n_for_queens; ++y)
         {
-            ChessBoard b = new ChessBoard(cb);
-            b.placeQueen(new Point(x, y));
-            //compute
-            //if complete, return, if at end, return...
+            //rslt += numberOnSide;
+            //System.out.print(numberOnSide);
+            --numberOnSide;
 
+            for(int x = 0; x != n_for_queens; ++x)
+            {
+                Point p = new Point(x, y);
 
-            ++x; ++y;
+                switch(grid[p.getFlatOffset(n_for_queens)])
+                {
+                    case OPEN -> rslt += ".";
+                    case QUEEN -> rslt += "Q";
+                    case ATTACKABLE -> rslt += "A";
+                    case LINE_OF_THREE -> rslt += "T";
+                }
 
-            break;
+                if(x + 1 != n_for_queens)
+                    rslt += " ";
+            }
+
+            rslt += '\n';
         }
 
-        int nextDepth = depth + 1;
-        if(nextDepth != cb.n_for_queens)
+        return rslt;
+    }
+
+    public void prettyPrint()
+    {
+        boolean white = false;
+        for(int row = 0; row != n_for_queens; ++row)
         {
-            //recurse
+            boolean startOnWhite = white;
+            for(int col = 0; col != n_for_queens; ++col)
+            {
+                int offset = new Point(col, row).getFlatOffset(n_for_queens);
+
+                if(grid[offset] == PositionState.QUEEN)
+                    System.out.print("♛");
+                else if(white)
+                    System.out.print(" ");
+                else
+                    System.out.print(".");
+
+                //Alternate by column
+                white = !white;
+            }
+
+            //opposite of previous start
+            white = !startOnWhite;
+
+            System.out.print('\n');
         }
-        return cb;
     }
 
     public static ChessBoard solve(ChessBoard passed, int row) throws NQueensUnsolvableForNException
@@ -210,51 +264,6 @@ public class ChessBoard
             throw new NQueensUnsolvableForNException(passed.n_for_queens);
 
         return passed;
-    }
-
-    public String mapStateToSymbol(PositionState state)
-    {
-        switch(state)
-        {
-            case OPEN: return ".";
-            case QUEEN: return "Q";
-            case ATTACKABLE: return "A";
-            case LINE_OF_THREE: return "T";
-        }
-        throw new RuntimeException("Inconceivable!");
-    }
-
-    public String getASCIIgrid()
-    {
-        String rslt = new String();
-
-        //Draw numbers under the chessboard
-        int numberOnSide = n_for_queens;
-
-        for(int y = 0; y != n_for_queens; ++y)
-        {
-            //rslt += numberOnSide;
-            //System.out.print(numberOnSide);
-            --numberOnSide;
-
-            for(int x = 0; x != n_for_queens; ++x)
-            {
-                Point p = new Point(x, y);
-                rslt += (mapStateToSymbol(grid[p.getFlatOffset(n_for_queens)]));
-                
-                if(x + 1 != n_for_queens)
-                    rslt += " ";
-            }
-
-            rslt += '\n';
-        }
-
-        return rslt;
-    }
-
-    public String getPrettyPrintedString()
-    {
-        return getASCIIgrid();
     }
 }
 

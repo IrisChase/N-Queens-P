@@ -32,7 +32,7 @@ public class Main
         {
             ChessBoard myChessBoard = new ChessBoard(n);
             myChessBoard = ChessBoard.solve(myChessBoard, 0);
-            System.out.println(myChessBoard.getPrettyPrintedString());
+            myChessBoard.prettyPrint();
         }
         catch(NQueensUnsolvableForNException x)
         {

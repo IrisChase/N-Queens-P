@@ -8,7 +8,7 @@ import javax.swing.text.Position;
 public class ChessBoardTest
 {
     /*
-    String iiii = "\n" +
+    String expected = "\n" +
                           ". . . . . . . .\n" +
                           ". . . . . . . .\n" +
                           ". . . . . . . .\n" +
@@ -312,6 +312,160 @@ public class ChessBoardTest
 
 
         assertEquals(q6x4, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at0x0and2x3()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(0, 0),
+                new Point(2, 3),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                              "Q . . . . . . .\n" +
+                              ". . . . . . . .\n" +
+                              ". . . . . . . .\n" +
+                              ". . Q . . . . .\n" +
+                              ". . . . . . . .\n" +
+                              ". . . . . . . .\n" +
+                              ". . . . Q . . .\n" +
+                              ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at2x3and0x0()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(2, 3),
+                new Point(0, 0),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  "Q . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . Q . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . Q . . .\n" +
+                                  ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at3x3and5x6()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(3, 3),
+                new Point(5, 6),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  ". Q . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . Q . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . Q . .\n" +
+                                  ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at5x6and3x3()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(5, 6),
+                new Point(3, 3),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  ". Q . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . Q . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . Q . .\n" +
+                                  ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at1x6and3x3()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(1, 6),
+                new Point(3, 3),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  ". . . . . Q . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . Q . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". Q . . . . . .\n" +
+                                  ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at1x6and2x3()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(1, 6),
+                new Point(2, 3),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  ". . . Q . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . Q . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". Q . . . . . .\n" +
+                                  ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
+    @Test
+    void testLineOfThreeVulnerable8x8at6x1and3x2()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(6, 1),
+                new Point(3, 2),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . Q .\n" +
+                                  ". . . Q . . . .\n" +
+                                  "Q . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
     }
 
 

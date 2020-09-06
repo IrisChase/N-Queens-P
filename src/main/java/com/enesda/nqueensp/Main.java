@@ -31,7 +31,7 @@ public class Main
         try
         {
             ChessBoard myChessBoard = new ChessBoard(n);
-            myChessBoard.addQueens();
+            myChessBoard = ChessBoard.solve(myChessBoard, 0);
             System.out.println(myChessBoard.getPrettyPrintedString());
         }
         catch(Exception x)

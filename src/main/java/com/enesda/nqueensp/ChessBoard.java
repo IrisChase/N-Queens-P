@@ -23,9 +23,8 @@ public class ChessBoard
     public ChessBoard(ChessBoard copyFrom)
     {
         n_for_queens = copyFrom.n_for_queens;
-        grid = getCopyOfGrid();
-        placedQueens = new Vector<Point>();
-        Collections.copy(placedQueens, copyFrom.placedQueens);
+        grid = copyFrom.getCopyOfGrid();
+        placedQueens = new Vector<Point>(copyFrom.placedQueens);
     }
 
     public PositionState[] getCopyOfGrid()
@@ -35,8 +34,12 @@ public class ChessBoard
         return rslt;
     }
 
+    public boolean checkSolved()
+    {
+        return placedQueens.size() == n_for_queens;
+    }
 
-    public boolean checkInBounds(Point p)
+    public boolean checkPointInBounds(Point p)
     {
         if(p.x >= n_for_queens || p.y >= n_for_queens) return false;
         if(p.x < 0 || p.y < 0) return false;
@@ -72,7 +75,7 @@ public class ChessBoard
     public void markDiagonal1stQuadrant(Point pos, PositionState markWith)
     {
         Point p = new Point(pos);
-        while(checkInBounds(p))
+        while(checkPointInBounds(p))
         {
             markIfOpen(p, markWith);
             ++p.x;
@@ -83,7 +86,7 @@ public class ChessBoard
     public void markDiagonal2ndQuadrant(Point pos, PositionState markWith)
     {
         Point p = new Point(pos);
-        while(checkInBounds(p))
+        while(checkPointInBounds(p))
         {
             markIfOpen(p, markWith);
             --p.x;
@@ -94,11 +97,9 @@ public class ChessBoard
     public void markDiagonal3rdQuadrant(Point pos, PositionState markWith)
     {
         Point p = new Point(pos);
-        while(checkInBounds(p))
+        while(checkPointInBounds(p))
         {
             markIfOpen(p, markWith);
-
-            if(p.x == 0 || p.y == 0) break;
             --p.x;
             ++p.y;
         }
@@ -107,14 +108,13 @@ public class ChessBoard
     public void markDiagonal4thQuadrant(Point pos, PositionState markWith)
     {
         Point p = new Point(pos);
-        while(checkInBounds(p))
+        while(checkPointInBounds(p))
         {
             markIfOpen(p, markWith);
             ++p.x;
             ++p.y;
         }
     }
-
 
     public void markLineOfThreeCompleting(Point pos1,
                                           Point pos2,
@@ -123,17 +123,18 @@ public class ChessBoard
 
     }
 
-    public void placeQueen(Point p)
+    public boolean placeQueen(Point p)
     {
         int flatOffset = p.getFlatOffset(n_for_queens);
 
-        if(grid[flatOffset] != PositionState.OPEN) return;
+        if(grid[flatOffset] != PositionState.OPEN) return false;
 
         grid[flatOffset] = PositionState.QUEEN;
 
         for(Point otherP : placedQueens)
         {
-            markLineOfThreeCompleting(p,
+            markLineOfThreeCompleting(
+                    p,
                     otherP,
                     PositionState.LINE_OF_THREE);
         }
@@ -147,6 +148,8 @@ public class ChessBoard
         markDiagonal4thQuadrant(p, PositionState.ATTACKABLE);
 
         placedQueens.add(p);
+
+        return true;
     }
 
     public void addQueens()
@@ -154,6 +157,56 @@ public class ChessBoard
         for(int y = 0; y != n_for_queens; ++y)
             for(int x = 0; x != n_for_queens; ++x)
                 placeQueen(new Point(x, y));
+    }
+
+    public static ChessBoard compute(ChessBoard cb, int x, int y, int depth)
+    {
+        while(true)
+        {
+            ChessBoard b = new ChessBoard(cb);
+            b.placeQueen(new Point(x, y));
+            //compute
+            //if complete, return, if at end, return...
+
+
+            ++x; ++y;
+
+            break;
+        }
+
+        int nextDepth = depth + 1;
+        if(nextDepth != cb.n_for_queens)
+        {
+            //recurse
+        }
+        return cb;
+    }
+
+    public static ChessBoard solve(ChessBoard passed, int row)
+    {
+        if(row == passed.n_for_queens) return passed;
+
+        Point pos = new Point(0, row);
+
+        for(; pos.x != passed.n_for_queens; ++pos.x)
+        {
+            ChessBoard attempt = new ChessBoard(passed);
+
+            while(!attempt.placeQueen(pos))
+            {
+                ++pos.x;
+
+                //Could not even this row, need one on each row
+                if(pos.x == attempt.n_for_queens) return passed;
+            }
+
+            //Queen was placed, now recurse
+            attempt = solve(attempt, row + 1);
+
+            if(attempt.checkSolved()) return attempt;
+        }
+
+        return passed;
     }
 
     public String mapStateToSymbol(PositionState state)

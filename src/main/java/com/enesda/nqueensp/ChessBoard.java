@@ -182,7 +182,7 @@ public class ChessBoard
         return cb;
     }
 
-    public static ChessBoard solve(ChessBoard passed, int row)
+    public static ChessBoard solve(ChessBoard passed, int row) throws NQueensUnsolvableForNException
     {
         if(row == passed.n_for_queens) return passed;
 
@@ -205,6 +205,9 @@ public class ChessBoard
 
             if(attempt.checkSolved()) return attempt;
         }
+
+        if(row == 0)
+            throw new NQueensUnsolvableForNException(passed.n_for_queens);
 
         return passed;
     }

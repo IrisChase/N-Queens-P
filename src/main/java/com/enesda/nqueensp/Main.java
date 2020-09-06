@@ -34,6 +34,10 @@ public class Main
             myChessBoard = ChessBoard.solve(myChessBoard, 0);
             System.out.println(myChessBoard.getPrettyPrintedString());
         }
+        catch(NQueensUnsolvableForNException x)
+        {
+            System.out.println("Problem unsolvable for N of " + x.n + ".");
+        }
         catch(Exception x)
         {
             System.out.println("Internal logic error");

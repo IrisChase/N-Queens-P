@@ -22,16 +22,6 @@ public class Point
         y = p.y;
     }
 
-    public void deincrementXabs()
-    {
-        x -= x < 0 ? - 1 : 1;
-    }
-
-    public void deincrementYabs()
-    {
-        y -= y < 0 ? - 1 : 1;
-    }
-
     public void add(Point p)
     {
         x += p.x;

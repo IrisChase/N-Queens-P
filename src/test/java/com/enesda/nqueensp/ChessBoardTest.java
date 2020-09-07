@@ -468,6 +468,28 @@ public class ChessBoardTest
         assertEquals(expected, "\n" + b.getASCIIgrid());
     }
 
+    @Test
+    void testLineOfThreeVulnerable8x8at6x4and0x7()
+    {
+        ChessBoard b = new ChessBoard(8);
+        b.markLineOfThreeCompleting(
+                new Point(6, 4),
+                new Point(0, 7),
+                PositionState.QUEEN);
+
+        String expected = "\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . . .\n" +
+                                  ". . . . . . Q .\n" +
+                                  ". . . . Q . . .\n" +
+                                  ". . Q . . . . .\n" +
+                                  "Q . . . . . . .\n";
+
+        assertEquals(expected, "\n" + b.getASCIIgrid());
+    }
+
 
     @Test
     void testSingleQueenPlacement8x8at0x0()

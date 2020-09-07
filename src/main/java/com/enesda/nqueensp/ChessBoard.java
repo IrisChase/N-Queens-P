@@ -219,11 +219,16 @@ public class ChessBoard
                 int offset = new Point(col, row).getFlatOffset(n_for_queens);
 
                 if(grid[offset] == PositionState.QUEEN)
-                    System.out.print("♛");
+                {
+                    if(white)
+                        System.out.print("♛ ");
+                    else
+                        System.out.print("♕ ");
+                }
                 else if(white)
-                    System.out.print(" ");
+                    System.out.print("□ ");
                 else
-                    System.out.print(".");
+                    System.out.print("  ");
 
                 //Alternate by column
                 white = !white;

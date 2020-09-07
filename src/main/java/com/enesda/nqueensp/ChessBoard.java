@@ -54,6 +54,9 @@ public class ChessBoard
             markIfOpen(p, markWith);
     }
 
+    // It looks weird having one diagonal drawing function for each quadrant,
+    // but it's easier to test that way. Initially I had trouble with lines
+    // "wrapping around" and it was hard to tell what was going on in the higher level tests.
     public void markVerticals(Point pos, PositionState markWith)
     {
         Point p = new Point(pos);

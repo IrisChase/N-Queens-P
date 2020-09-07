@@ -231,22 +231,20 @@ public class ChessBoard
         }
     }
 
-    public static ChessBoard solve(ChessBoard passed, int row) throws NQueensUnsolvableForNException
+    public static ChessBoard solve(ChessBoard cbIn, int row) throws NQueensUnsolvableForNException
     {
-        if(row == passed.n_for_queens) return passed;
+        if(row == cbIn.n_for_queens) return cbIn;
 
-        Point pos = new Point(0, row);
-
-        for(; pos.x != passed.n_for_queens; ++pos.x)
+        for(Point pos = new Point(0, row); pos.x != cbIn.n_for_queens; ++pos.x)
         {
-            ChessBoard attempt = new ChessBoard(passed);
+            ChessBoard attempt = new ChessBoard(cbIn);
 
             while(!attempt.placeQueen(pos))
             {
                 ++pos.x;
 
                 //Could not even this row, need one on each row
-                if(pos.x == attempt.n_for_queens) return passed;
+                if(pos.x == attempt.n_for_queens) return cbIn;
             }
 
             //Queen was placed, now recurse
@@ -256,9 +254,11 @@ public class ChessBoard
         }
 
         if(row == 0)
-            throw new NQueensUnsolvableForNException(passed.n_for_queens);
+            throw new NQueensUnsolvableForNException(cbIn.n_for_queens);
 
-        return passed;
+        //Doesn't really matter what is returned, it just needs to check that
+        // it isn't solved.
+        return cbIn;
     }
 }
 

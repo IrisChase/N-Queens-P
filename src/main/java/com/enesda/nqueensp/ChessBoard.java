@@ -163,16 +163,6 @@ public class ChessBoard
         return true;
     }
 
-    public void addQueens()
-    {
-        for(int y = 0; y != n_for_queens; ++y)
-            for(int x = 0; x != n_for_queens; ++x)
-                placeQueen(new Point(x, y));
-    }
-
-
-
-
     public String getASCIIgrid()
     {
         String rslt = new String();

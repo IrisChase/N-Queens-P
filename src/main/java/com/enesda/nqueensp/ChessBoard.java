@@ -157,46 +157,6 @@ public class ChessBoard
         return true;
     }
 
-    private static ChessBoard solveRecursively(ChessBoard cbIn, int row) throws NQueensUnsolvableForNException
-    {
-        if(row == cbIn.n_for_queens) return cbIn;
-
-        for(Point pos = new Point(0, row); pos.x != cbIn.n_for_queens; ++pos.x)
-        {
-            ChessBoard attempt = new ChessBoard(cbIn);
-
-            //Just a loop over a subrange so this doesn't make it n^n
-            //Not just using an if/continue statement because I don't wanna reallocate
-            // the attempt each iteration of the outer for loop.
-            while(!attempt.placeQueen(pos))
-            {
-                ++pos.x;
-                if(pos.x == attempt.n_for_queens) return null;
-            }
-
-            //Queen has to be placed by this point, now recurse
-            attempt = solveRecursively(attempt, row + 1);
-
-            if(attempt != null && attempt.checkSolved()) return attempt;
-        }
-
-        if(row == 0) throw new NQueensUnsolvableForNException(cbIn.n_for_queens);
-
-        //Doesn't really matter what is returned, it just needs to check that
-        // it isn't solved.
-        return null;
-    }
-
-    public static ChessBoard getSolvedBoardForN(int n) throws NQueensUnsolvableForNException
-    {
-        ChessBoard cb = new ChessBoard(n);
-        cb = ChessBoard.solveRecursively(cb, 0);
-
-        assert(cb != null); //Should throw before it passes null up this far but...
-
-        return cb;
-    }
-
     public String renderToString(ChessBoardCellRenderer r)
     {
         String rslt = new String();
@@ -224,6 +184,44 @@ public class ChessBoard
         }
 
         return rslt;
+    }
+
+    private static ChessBoard solveRecursively(ChessBoard cbIn, int row) throws NQueensUnsolvableForNException
+    {
+        if(row == cbIn.n_for_queens) return cbIn;
+
+        for(Point pos = new Point(0, row); pos.x != cbIn.n_for_queens; ++pos.x)
+        {
+            ChessBoard attempt = new ChessBoard(cbIn);
+
+            //Just a loop over a subrange so this doesn't make it n^n
+            //Not just using an if/continue statement because I don't wanna reallocate
+            // the attempt each iteration of the outer for loop.
+            while(!attempt.placeQueen(pos))
+            {
+                ++pos.x;
+                if(pos.x == attempt.n_for_queens) return null;
+            }
+
+            //Queen has to be placed by this point, now recurse
+            attempt = solveRecursively(attempt, row + 1);
+
+            if(attempt != null && attempt.checkSolved()) return attempt;
+        }
+
+        if(row == 0) throw new NQueensUnsolvableForNException(cbIn.n_for_queens);
+
+        return null;
+    }
+
+    public static ChessBoard getSolvedBoardForN(int n) throws NQueensUnsolvableForNException
+    {
+        ChessBoard cb = new ChessBoard(n);
+        cb = ChessBoard.solveRecursively(cb, 0);
+
+        assert(cb != null); //Should throw before it passes null up this far but...
+
+        return cb;
     }
 }
 

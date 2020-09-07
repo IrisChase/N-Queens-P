@@ -2,7 +2,6 @@ package com.enesda.nqueensp;
 
 import java.util.Arrays;
 import java.util.Vector;
-import java.util.HashMap;
 
 public class ChessBoard
 {
@@ -155,27 +154,28 @@ public class ChessBoard
         return true;
     }
 
-    public String getASCIIgrid()
+    public String renderToString(ChessBoardCellRenderer r)
     {
         String rslt = new String();
 
-        for(int y = 0; y != n_for_queens; ++y)
+        boolean white = false;
+        for(int row = 0; row != n_for_queens; ++row)
         {
-            for(int x = 0; x != n_for_queens; ++x)
+            boolean startedOnWhite = white;
+            for(int col = 0; col != n_for_queens; ++col)
             {
-                Point p = new Point(x, y);
+                int offset = new Point(col, row).getFlatOffset(n_for_queens);
+                rslt += r.mapToChar(grid[offset], white);
 
-                switch(grid[p.getFlatOffset(n_for_queens)])
-                {
-                    case OPEN -> rslt += ".";
-                    case QUEEN -> rslt += "Q";
-                    case ATTACKABLE -> rslt += "A";
-                    case LINE_OF_THREE -> rslt += "T";
-                }
+                if(col + 1 != n_for_queens)
+                    rslt += r.cellSpacing();
 
-                if(x + 1 != n_for_queens)
-                    rslt += " ";
+                //Alternate by column
+                white = !white;
             }
+
+            //Alternate by row
+            white = !startedOnWhite;
 
             rslt += '\n';
         }
@@ -183,40 +183,7 @@ public class ChessBoard
         return rslt;
     }
 
-    public void prettyPrint()
-    {
-        boolean white = false;
-        for(int row = 0; row != n_for_queens; ++row)
-        {
-            boolean startOnWhite = white;
-            for(int col = 0; col != n_for_queens; ++col)
-            {
-                int offset = new Point(col, row).getFlatOffset(n_for_queens);
-
-                if(grid[offset] == PositionState.QUEEN)
-                {
-                    if(white)
-                        System.out.print("♛ ");
-                    else
-                        System.out.print("♕ ");
-                }
-                else if(white)
-                    System.out.print("□ ");
-                else
-                    System.out.print("  ");
-
-                //Alternate by column
-                white = !white;
-            }
-
-            //opposite of previous start to alternate starting color
-            white = !startOnWhite;
-
-            System.out.print('\n');
-        }
-    }
-
-    public static ChessBoard solve(ChessBoard cbIn, int row) throws NQueensUnsolvableForNException
+    private static ChessBoard solveRecursively(ChessBoard cbIn, int row) throws NQueensUnsolvableForNException
     {
         if(row == cbIn.n_for_queens) return cbIn;
 
@@ -230,21 +197,30 @@ public class ChessBoard
             while(!attempt.placeQueen(pos))
             {
                 ++pos.x;
-                if(pos.x == attempt.n_for_queens) return cbIn;
+                if(pos.x == attempt.n_for_queens) return null;
             }
 
-            //Queen has to be placed by thiw point, now recurse
-            attempt = solve(attempt, row + 1);
+            //Queen has to be placed by this point, now recurse
+            attempt = solveRecursively(attempt, row + 1);
 
-            if(attempt.checkSolved()) return attempt;
+            if(attempt != null && attempt.checkSolved()) return attempt;
         }
 
-        if(row == 0)
-            throw new NQueensUnsolvableForNException(cbIn.n_for_queens);
+        if(row == 0) throw new NQueensUnsolvableForNException(cbIn.n_for_queens);
 
         //Doesn't really matter what is returned, it just needs to check that
         // it isn't solved.
-        return cbIn;
+        return null;
+    }
+
+    public static ChessBoard getSolvedBoardForN(int n) throws NQueensUnsolvableForNException
+    {
+        ChessBoard cb = new ChessBoard(n);
+        cb = ChessBoard.solveRecursively(cb, 0);
+
+        assert(cb != null); //Should throw before it passes null up this far but...
+
+        return cb;
     }
 }
 

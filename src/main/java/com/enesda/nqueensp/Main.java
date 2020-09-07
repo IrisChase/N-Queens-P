@@ -30,9 +30,8 @@ public class Main
 
         try
         {
-            ChessBoard myChessBoard = new ChessBoard(n);
-            myChessBoard = ChessBoard.solve(myChessBoard, 0);
-            myChessBoard.prettyPrint();
+            ChessBoard myChessBoard = ChessBoard.getSolvedBoardForN(n) ;
+            System.out.print(myChessBoard.renderToString(new FinalCellRenderer()));
         }
         catch(NQueensUnsolvableForNException x)
         {

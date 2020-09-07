@@ -7,6 +7,12 @@ import javax.swing.text.Position;
 
 public class ChessBoardTest
 {
+    private static String getTestableRender(ChessBoard b)
+    {
+        //Adding a newline before the string to make them print
+        // correctly in jUnit test results, hacky, I know...
+        return "\n" + b.renderToString(new TestCellRenderer());
+    }
     /*
     String expected = "\n" +
                           ". . . . . . . .\n" +
@@ -37,7 +43,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -58,7 +64,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q3x6, "\n" + b.getASCIIgrid());
+        assertEquals(q3x6, getTestableRender(b));
     }
 
     @Test
@@ -79,7 +85,7 @@ public class ChessBoardTest
                               "Q . . . . . . .\n";
 
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -100,7 +106,7 @@ public class ChessBoardTest
                               ". . . Q . . . .\n";
 
 
-        assertEquals(q3x6, "\n" + b.getASCIIgrid());
+        assertEquals(q3x6, getTestableRender(b));
     }
 
     @Test
@@ -121,7 +127,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -142,7 +148,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q3x6, "\n" + b.getASCIIgrid());
+        assertEquals(q3x6, getTestableRender(b));
     }
 
     @Test
@@ -163,7 +169,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -184,7 +190,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q3x6, "\n" + b.getASCIIgrid());
+        assertEquals(q3x6, getTestableRender(b));
     }
 
     @Test
@@ -205,7 +211,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -226,7 +232,7 @@ public class ChessBoardTest
                               ". . Q . . . . .\n";
 
 
-        assertEquals(q3x6, "\n" + b.getASCIIgrid());
+        assertEquals(q3x6, getTestableRender(b));
     }
 
     @Test
@@ -247,7 +253,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q2x4, "\n" + b.getASCIIgrid());
+        assertEquals(q2x4, getTestableRender(b));
     }
 
 
@@ -269,7 +275,7 @@ public class ChessBoardTest
                               ". . . . . . . Q\n";
 
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -290,7 +296,7 @@ public class ChessBoardTest
                               ". . . . Q . . .\n";
 
 
-        assertEquals(q3x6, "\n" + b.getASCIIgrid());
+        assertEquals(q3x6, getTestableRender(b));
     }
 
     @Test
@@ -311,7 +317,7 @@ public class ChessBoardTest
                               ". . . . . . . .\n";
 
 
-        assertEquals(q6x4, "\n" + b.getASCIIgrid());
+        assertEquals(q6x4, getTestableRender(b));
     }
 
     @Test
@@ -333,7 +339,7 @@ public class ChessBoardTest
                               ". . . . Q . . .\n" +
                               ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -355,7 +361,7 @@ public class ChessBoardTest
                                   ". . . . Q . . .\n" +
                                   ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -377,7 +383,7 @@ public class ChessBoardTest
                                   ". . . . . Q . .\n" +
                                   ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -399,7 +405,7 @@ public class ChessBoardTest
                                   ". . . . . Q . .\n" +
                                   ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -421,7 +427,7 @@ public class ChessBoardTest
                                   ". Q . . . . . .\n" +
                                   ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -443,7 +449,7 @@ public class ChessBoardTest
                                   ". Q . . . . . .\n" +
                                   ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -465,7 +471,7 @@ public class ChessBoardTest
                                   ". . . . . . . .\n" +
                                   ". . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
     @Test
@@ -487,7 +493,7 @@ public class ChessBoardTest
                                   ". . Q . . . . .\n" +
                                   "Q . . . . . . .\n";
 
-        assertEquals(expected, "\n" + b.getASCIIgrid());
+        assertEquals(expected, getTestableRender(b));
     }
 
 
@@ -497,8 +503,6 @@ public class ChessBoardTest
         ChessBoard b = new ChessBoard(8);
         b.placeQueen(new Point(0, 0));
 
-        //Add a newline here and in the assert so that it prints cleanly
-        // in the test report. Hacky, I know...
         String q0x0 = "\n" +
                               "Q A A A A A A A\n" +
                               "A A . . . . . .\n" +
@@ -509,7 +513,7 @@ public class ChessBoardTest
                               "A . . . . . A .\n" +
                               "A . . . . . . A\n";
 
-        assertEquals(q0x0, "\n" + b.getASCIIgrid());
+        assertEquals(q0x0, getTestableRender(b));
     }
 
     @Test
@@ -528,7 +532,7 @@ public class ChessBoardTest
                               ". . . . . . A A\n" +
                               "A A A A A A A Q\n";
 
-        assertEquals(q7x7, "\n" + b.getASCIIgrid());
+        assertEquals(q7x7, getTestableRender(b));
     }
 
     @Test
@@ -547,6 +551,6 @@ public class ChessBoardTest
                               ". . . A . . . A\n" +
                               ". . . A . . . .\n";
 
-        assertEquals(q3x2, "\n" + b.getASCIIgrid());
+        assertEquals(q3x2, getTestableRender(b));
     }
 }

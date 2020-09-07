@@ -22,15 +22,8 @@ public class ChessBoard
     public ChessBoard(ChessBoard copyFrom)
     {
         n_for_queens = copyFrom.n_for_queens;
-        grid = copyFrom.getCopyOfGrid();
+        grid = Arrays.copyOf(copyFrom.grid, copyFrom.grid.length);
         placedQueens = new Vector<Point>(copyFrom.placedQueens);
-    }
-
-    public PositionState[] getCopyOfGrid()
-    {
-        PositionState[] rslt = new PositionState[grid.length];
-        rslt = Arrays.copyOf(grid, grid.length);
-        return rslt;
     }
 
     public boolean checkSolved()
@@ -141,7 +134,6 @@ public class ChessBoard
 
         grid[flatOffset] = PositionState.QUEEN;
 
-
         for(Point otherP : placedQueens)
         {
             markLineOfThreeCompleting(
@@ -167,15 +159,8 @@ public class ChessBoard
     {
         String rslt = new String();
 
-        //Draw numbers under the chessboard
-        int numberOnSide = n_for_queens;
-
         for(int y = 0; y != n_for_queens; ++y)
         {
-            //rslt += numberOnSide;
-            //System.out.print(numberOnSide);
-            --numberOnSide;
-
             for(int x = 0; x != n_for_queens; ++x)
             {
                 Point p = new Point(x, y);
@@ -224,7 +209,7 @@ public class ChessBoard
                 white = !white;
             }
 
-            //opposite of previous start
+            //opposite of previous start to alternate starting color
             white = !startOnWhite;
 
             System.out.print('\n');
@@ -239,15 +224,16 @@ public class ChessBoard
         {
             ChessBoard attempt = new ChessBoard(cbIn);
 
+            //Just a loop over a subrange so this doesn't make it n^n
+            //Not just using an if/continue statement because I don't wanna reallocate
+            // the attempt each iteration of the outer for loop.
             while(!attempt.placeQueen(pos))
             {
                 ++pos.x;
-
-                //Could not even this row, need one on each row
                 if(pos.x == attempt.n_for_queens) return cbIn;
             }
 
-            //Queen was placed, now recurse
+            //Queen has to be placed by thiw point, now recurse
             attempt = solve(attempt, row + 1);
 
             if(attempt.checkSolved()) return attempt;

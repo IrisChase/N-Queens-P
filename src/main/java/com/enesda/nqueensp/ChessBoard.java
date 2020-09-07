@@ -157,35 +157,6 @@ public class ChessBoard
         return true;
     }
 
-    public String renderToString(ChessBoardCellRenderer r)
-    {
-        String rslt = new String();
-
-        boolean white = false;
-        for(int row = 0; row != n_for_queens; ++row)
-        {
-            boolean startedOnWhite = white;
-            for(int col = 0; col != n_for_queens; ++col)
-            {
-                int offset = new Point(col, row).getFlatOffset(n_for_queens);
-                rslt += r.mapToChar(grid[offset], white);
-
-                if(col + 1 != n_for_queens)
-                    rslt += r.cellSpacing();
-
-                //Alternate by column
-                white = !white;
-            }
-
-            //Alternate by row
-            white = !startedOnWhite;
-
-            rslt += '\n';
-        }
-
-        return rslt;
-    }
-
     private static ChessBoard solveRecursively(ChessBoard cbIn, int row) throws NQueensUnsolvableForNException
     {
         if(row == cbIn.n_for_queens) return cbIn;
@@ -224,6 +195,35 @@ public class ChessBoard
         assert(cb != null); //Should throw before it passes null up this far but...
 
         return cb;
+    }
+
+    public String renderToString(ChessBoardCellRenderer r)
+    {
+        String rslt = new String();
+
+        boolean white = false;
+        for(int row = 0; row != n_for_queens; ++row)
+        {
+            boolean startedOnWhite = white;
+            for(int col = 0; col != n_for_queens; ++col)
+            {
+                int offset = new Point(col, row).getFlatOffset(n_for_queens);
+                rslt += r.mapToChar(grid[offset], white);
+
+                if(col + 1 != n_for_queens)
+                    rslt += r.cellSpacing();
+
+                //Alternate by column
+                white = !white;
+            }
+
+            //Alternate by row
+            white = !startedOnWhite;
+
+            rslt += '\n';
+        }
+
+        return rslt;
     }
 }
 

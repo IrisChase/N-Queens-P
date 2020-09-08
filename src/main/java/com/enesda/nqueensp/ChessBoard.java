@@ -167,8 +167,8 @@ public class ChessBoard
             for(int col = 0; col != n_for_queens; ++col)
             {
                 int offset = new Point(col, row).getFlatOffset(n_for_queens);
-                rslt += r.mapToChar(grid[offset], white);
 
+                rslt += r.mapToChar(grid[offset], white);
                 if(col + 1 != n_for_queens)
                     rslt += r.cellSpacing();
 
@@ -195,7 +195,7 @@ public class ChessBoard
 
             //Just a loop over a subrange so this doesn't make it n^n
             //Not just using an if/continue statement because I don't wanna reallocate
-            // the attempt each iteration of the outer for loop.
+            // "attempt" each iteration of the outer for loop.
             while(!attempt.placeQueen(pos))
             {
                 ++pos.x;

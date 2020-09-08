@@ -9,7 +9,6 @@ public class ChessBoard
     private Vector<Point> placedQueens;
     private final PositionState grid[];
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~public interface:
     public ChessBoard(int n)
     {
         n_for_queens = n;
